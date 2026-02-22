@@ -38,6 +38,14 @@ RAW_TEST_CASES = [
     ("EASY - only one solution, longer", [
         [x * int(x==y) - x * int(x != y) for x in range(1,6)] for y in range(6)
     ], SAT 
-    )
+    ),
+
+    ("DEBUG - example from lec 4 slides", [
+        [1, -2], [-1, -2], [2, 3], [-3, 2], [1, 4]
+    ], UNSAT),
+
+    ("DEBUG - example from hw2", [
+        [1, 2, 3], [-1, -2, -3], [-1, 2, 3], [-2, 3], [2, -3]
+    ], UNSAT),
 
 ]

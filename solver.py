@@ -45,24 +45,21 @@ def propagate(clauses, M):
 
 def backtrack(M, decision_points):
     if len(decision_points) == 0:
-        return M
+        return M, False
     
-    decision_point = decision_points.pop() # again cant tell if this is off by one error NEED TO TEST
+    decision_point = decision_points.pop()
 
     M = M[:decision_point] + [-M[decision_point]]
-    return M
-
-def fail():
-    # tbh idek if we need this function but i'll change solve first to see if we need it
-    pass
+    update_msg(M, True, "backtrack")
+    return M, True
 
 def decide(clauses, M, decision_points):
     changed = False
     for literal in clauses.literals:
         if literal not in M and -literal not in M:
-            M =  M + [literal]
+            decision_points.append(len(M)) # basically save the places where the big dots in the slide would be
+            M = M + [literal]
             changed = True
-            decision_points.append(len(M)) # basically save the places where the big dots in the slide would be - might have off by one error so gotta test logic
             break
     update_msg(M, changed, "decide")
     return M, changed
@@ -84,19 +81,35 @@ def solve(test_case):
     result = True
     M = []
     decision_points = []
-    i = 0 
-    if test_case.result == SAT:
-        # NOTE: I have not added the backtrack or fail cases
-        # So we have to break on i, otherwise, we may go in circles. 
-        while (len(M) != len(clauses.unique_literals)) and i < 5: 
-            M, changed = pure(clauses, M)
-            if changed:
+
+    while True:
+
+        if check_conflict(clauses, M): # backtrack if there's a conflict
+            print("Conflict: ", M, "\n")
+            M, can_backtrack = backtrack(M, decision_points)
+            if not can_backtrack: # fail if can't backtrack anymore
+                print("\nFailed\n")
+                solution = SolverResult(UNSAT)
+                print("\nSolution is", solution.assignment, "\n")
+                return solution
+            else:
                 continue
-            M, changed = propagate(clauses, M)
-            if changed:
-                continue
-            M, changed = decide(clauses, M, decision_points)
-            i += 1
-    solution = SolverResult(result, assignment=M)
-    print("\nSolution is", solution.assignment, "\n")
-    return solution
+
+        all_assigned = True
+        for literal in clauses.literals:
+            if literal not in M and -literal not in M:
+                all_assigned = False
+                break
+
+        if all_assigned: #this would mean it's satisfied
+            solution = SolverResult(result, assignment=M)
+            print("\nSolution is", solution.assignment, "\n")
+            return solution
+
+        M, changed = pure(clauses, M)
+        if changed:
+            continue
+        M, changed = propagate(clauses, M)
+        if changed:
+            continue
+        M, changed = decide(clauses, M, decision_points)        
