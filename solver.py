@@ -9,6 +9,17 @@ class SolverResult:
 def update_msg(M, changed, name):
     print(f"try {name}, new M={M}, changed = {changed}")
 
+def check_conflict(clauses, M):
+    for clause in clauses.clause_list:
+        conflicting = True
+        for literal in clause.literals:
+            if -literal not in M:
+                conflicting = False
+                break
+        if conflicting:
+            return True
+    return False
+
 def propagate(clauses, M):
     changed = False
     candidate = None
@@ -51,7 +62,7 @@ def decide(clauses, M):
 def pure(clauses, M):
     changed = False
     for literal in clauses.literals:
-        if literal not in M:
+        if literal not in M and -literal not in M:
             if -literal not in clauses.literals: # suppose we terminate early
                 changed = True
                 M =  M + [literal]
