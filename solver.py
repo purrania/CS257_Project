@@ -36,7 +36,7 @@ def propagate(clauses, M):
                     break
             else:
                 break
-        if candidate is not None and neg_literal_in_M_count == len(M)-1:
+        if candidate is not None and neg_literal_in_M_count == len(clause.literals)-1:
             M =  M + [candidate]
             changed = True
             break
