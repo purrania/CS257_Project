@@ -1,5 +1,6 @@
 from test_case_maker import * 
-from solver import solve
+#from solver import solve
+from watch_lit_solver import solve
 import time
 
 VERBOSE = False
