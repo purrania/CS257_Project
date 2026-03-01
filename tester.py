@@ -39,6 +39,7 @@ def load_test_cases():
     return test_case_list
     '''
     test_case_list = [make_test_case(x[0],x[1],x[2]) for x in RAW_TEST_CASES]
+    test_case_list += DIMACS_TEST_CASES
     return test_case_list
 if __name__ == "__main__":
     test_cases = load_test_cases()
