@@ -1,13 +1,18 @@
+from utils import update_msg, trunc_print
 SAT = True
 UNSAT = False
-
+VERBOSE = False
 class SolverResult:
     def __init__(self, result, assignment = None):
        self.result = result
        self.assignment = assignment
 
 def update_msg(M, changed, name):
-    print(f"try {name}, new M={M}, changed = {changed}")
+    if VERBOSE: 
+        # ideally, we set this condition on calls to update_msg, but 
+        # this is hard to enforce/guarantee a call is accidentally added
+        # without the verbose condition 
+        print(f"try {name}, new M={M}, changed = {changed}")
 
 def check_conflict(clauses, M):
     for clause in clauses.clause_list:
@@ -75,8 +80,9 @@ def pure(clauses, M):
     update_msg(M, changed, "pure")
     return M, changed
 
-def solve(test_case):
-    print(f"\nTest case:{test_case.raw_clauses}")
+def dpll_solve(test_case):
+    if VERBOSE:
+        print(f"\nTest case:{test_case.raw_clauses}")
     clauses = test_case.clauses
     result = True
     M = []
@@ -85,12 +91,13 @@ def solve(test_case):
     while True:
 
         if check_conflict(clauses, M): # backtrack if there's a conflict
-            print("Conflict: ", M, "\n")
+            if VERBOSE:
+                print("Conflict: ", M, "\n")
             M, can_backtrack = backtrack(M, decision_points)
             if not can_backtrack: # fail if can't backtrack anymore
                 print("\nFailed\n")
                 solution = SolverResult(UNSAT)
-                print("\nSolution is", solution.assignment, "\n")
+                trunc_print("Solution", solution.assignment)
                 return solution
             else:
                 continue
@@ -103,7 +110,7 @@ def solve(test_case):
 
         if all_assigned: #this would mean it's satisfied
             solution = SolverResult(result, assignment=M)
-            print("\nSolution is", solution.assignment, "\n")
+            trunc_print("Solution", solution.assignment)
             return solution
 
         M, changed = pure(clauses, M)

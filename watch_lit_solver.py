@@ -1,3 +1,4 @@
+from utils import update_msg, trunc_print
 SAT = True
 UNSAT = False
 
@@ -5,9 +6,6 @@ class SolverResult:
     def __init__(self, result, assignment = None):
        self.result = result
        self.assignment = assignment
-
-def update_msg(M, changed, name):
-    print(f"try {name}, new M={M}, changed = {changed}")
 
 def check_conflict(clauses, M):
     for clause in clauses.clause_list:
@@ -144,9 +142,10 @@ def pure(clauses, M):
     update_msg(M, changed, "pure")
     return M, changed
 
-def solve(test_case):
-    print(f"\nTest case:{test_case.raw_clauses}")
-    clauses = test_case.clauses
+def watched_literals_solve(test_case):
+    raw_clauses = test_case.raw_clauses
+    trunc_print("Test Case", raw_clauses)
+    clauses = test_case.clauses 
     result = True
     M = []
     M_set = set() 
@@ -160,7 +159,6 @@ def solve(test_case):
         if len(clause.literals) == 0:
             print("\nFailed\n")
             solution = SolverResult(UNSAT)
-            print("\nSolution is", solution.assignment, "\n")
             return solution
     
     #Starts by checking for Unit clauses
@@ -169,7 +167,6 @@ def solve(test_case):
             if not _enqueue(clause.literals[0], M, M_set): #failed immediately
                 print("\nFailed\n")
                 solution = SolverResult(UNSAT)
-                print("\nSolution is", solution.assignment, "\n")
                 return solution
 
     while True:
@@ -179,8 +176,7 @@ def solve(test_case):
             M, can_backtrack = backtrack(M, decision_points)
             if not can_backtrack: # fail if can't backtrack anymore
                 print("\nFailed\n")
-                solution = SolverResult(UNSAT)
-                print("\nSolution is", solution.assignment, "\n")
+                trunc_print("Solution", solution.assignment)
                 return solution
             else:
                 # Rebuild fast structures after backtrack.
@@ -196,7 +192,7 @@ def solve(test_case):
 
         if all_assigned: #this would mean it's satisfied
             solution = SolverResult(result, assignment=M)
-            print("\nSolution is", solution.assignment, "\n")
+            trunc_print("Solution", solution.assignment)            
             return solution
 
         M, changed = pure(clauses, M)

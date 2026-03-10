@@ -1,34 +1,75 @@
 from clauses import Clause, Clauses
-import glob
+import glob, random, json
 SAT = True
 UNSAT = False
-
+NUM_TESTS = 9
 class TestCase:
-    def __init__(self, raw_clauses, clauses, result, assignment =  None):
+    def __init__(self, name, raw_clauses, clauses, result, assignment =  None):
+        self.name = name
         self.raw_clauses = raw_clauses # for now, we keep this just for debugging
         self.clauses = clauses
         self.result = result
         self.assignment = assignment
 
-# NOTE: I have introduced a num_clauses restriction because the problems 
-# from the SAT comp are far too huge for our current implementation to handle.
-# Because we only want to use SAT examples to test, we can just use an 
-# arbitrary subset of the clauses in each problem. Later, we can do this 
-# selection of the subset at random, but for now we can just 
-# use clauses 1 ... {num_clauses}
-def make_dimacs_case(name, path, result, num_clauses = 5):
-    raw_clauses = []
-    with open(path, "r") as f:
-        lines = f.readlines()[1:num_clauses]
-        raw_clauses = [[int(x) for x in line.split()] for line in lines]
-    return make_test_case(name, raw_clauses, result)
+def make_dimacs_case(name, clauses, result, num_clauses=100):
+    # ensure we don't sample more clauses than exist
+    num_clauses = min(num_clauses, len(clauses))
+    sampled_clauses = random.sample(clauses, num_clauses)
+    return make_test_case(name, sampled_clauses, result)
 
+def load_dimacs(path):
+    clauses = []
+    with open(path) as f:
+        for line in f:
+            if line.startswith(("c", "p")):
+                continue
+            clauses.append([int(x) for x in line.split() if x != "0"])
+    return clauses
+
+def make_dimacs_cases(path):
+    dimacs_clauses = load_dimacs(path)
+    sizes = [10 * 2 ** n for n in range(NUM_TESTS)]
+    test_cases = []
+    for size in sizes:
+        print(f"making test case of size {size}, max {10 * 2 ** (NUM_TESTS-1)}")
+        test_case = make_dimacs_case(f"dimacs_{size}", dimacs_clauses, SAT, size)
+        test_cases.append(test_case)
+    return test_cases 
 def make_test_case(name, raw_clauses, result):
     clause_list = [Clause(x) for x in raw_clauses]
     clauses = Clauses(clause_list)
     result = result
-    test_case = TestCase(raw_clauses, clauses, result)
+    test_case = TestCase(name, raw_clauses, clauses, result)
     return test_case 
+
+def save_test_cases(test_cases, path):
+    data = []
+
+    for tc in test_cases:
+        data.append({
+            "name": tc.name,
+            "raw_clauses": tc.raw_clauses,
+            "result": tc.result
+        })
+
+    with open(path, "w") as f:
+        json.dump(data, f)
+
+def load_saved_test_cases(path):
+    with open(path) as f:
+        data = json.load(f)
+
+    test_cases = []
+
+    for entry in data:
+        tc = make_test_case(
+            entry["name"],
+            entry["raw_clauses"],
+            entry["result"]
+        )
+        test_cases.append(tc)
+
+    return test_cases
 
 RAW_TEST_CASES = [
     ("EASY - One literal", [[1]], SAT),
@@ -59,11 +100,11 @@ RAW_TEST_CASES = [
 
     ("DEBUG - example from hw2", [
         [1, 2, 3], [-1, -2, -3], [-1, 2, 3], [-2, 3], [2, -3]
-    ], UNSAT),
+    ], SAT), # NOTE: this test case had to be fixed, as it is SAT, based on HW2 solutions
 ]
 
-# NOTE: download the problems from the leaderboard site, then extract the .cnf into the repo, 
-# my .gitignore makes sure we won't clutter the repo with the test cases.  
-DIMACS_TEST_CASES = [
-    make_dimacs_case(name = "dimacs {f}", path = f, result = SAT) for f in glob.glob("*.cnf")
-] 
+DIMACS_TEST_CASES = load_saved_test_cases("dimacs_tests.json")
+if __name__ == "__main__":
+    cnf_file = [x for x in glob.glob("*.cnf")][0] # for now, we are only testing on one file
+    dimacs_test_cases = make_dimacs_cases(cnf_file)
+    save_test_cases(dimacs_test_cases, "dimacs_tests.json") 
