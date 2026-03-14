@@ -176,7 +176,7 @@ def watched_literals_solve(test_case):
             M, can_backtrack = backtrack(M, decision_points)
             if not can_backtrack: # fail if can't backtrack anymore
                 print("\nFailed\n")
-                trunc_print("Solution", solution.assignment)
+                solution = SolverResult(UNSAT)
                 return solution
             else:
                 # Rebuild fast structures after backtrack.
