@@ -1,4 +1,6 @@
 from utils import update_msg, trunc_print
+import sys
+
 SAT = True
 UNSAT = False
 VERBOSE = False
@@ -80,7 +82,7 @@ def pure(clauses, M):
     update_msg(M, changed, "pure")
     return M, changed
 
-def dpll_solve(test_case):
+def dpll_solve(test_case, mem_lim=None):
     if VERBOSE:
         print(f"\nTest case:{test_case.raw_clauses}")
     clauses = test_case.clauses
@@ -89,6 +91,11 @@ def dpll_solve(test_case):
     decision_points = []
 
     while True:
+
+        if mem_lim is not None:
+            used_mem = sys.getsizeof(M) + sys.getsizeof(decision_points)
+            if used_mem > mem_lim:
+                raise MemoryError(f"solver used too much memory: {used_mem} > {mem_lim}")
 
         if check_conflict(clauses, M): # backtrack if there's a conflict
             if VERBOSE:

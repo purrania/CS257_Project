@@ -1,3 +1,5 @@
+import sys
+
 from utils import update_msg, trunc_print
 SAT = True
 UNSAT = False
@@ -142,7 +144,7 @@ def pure(clauses, M):
     update_msg(M, changed, "pure")
     return M, changed
 
-def watched_literals_solve(test_case):
+def watched_literals_solve(test_case, mem_lim=None):
     raw_clauses = test_case.raw_clauses
     trunc_print("Test Case", raw_clauses)
     clauses = test_case.clauses 
@@ -170,6 +172,11 @@ def watched_literals_solve(test_case):
                 return solution
 
     while True:
+        if mem_lim is not None:
+            used_mem = sys.getsizeof(M) + sys.getsizeof(decision_points) + sys.getsizeof(M_set) + sys.getsizeof(watchlist) + sys.getsizeof(watched)
+            if used_mem > mem_lim:
+                raise MemoryError(f"solver used too much memory: {used_mem} > {mem_lim}")
+
         ok, qhead = _bcp_watched(M, M_set, qhead, watchlist, watched)
         if not ok: # backtrack if there's a conflict
             print("Conflict: ", M, "\n")
