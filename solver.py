@@ -5,9 +5,10 @@ SAT = True
 UNSAT = False
 VERBOSE = False
 class SolverResult:
-    def __init__(self, result, assignment = None):
+    def __init__(self, result, assignment = None, max_mem = 0):
        self.result = result
        self.assignment = assignment
+       self.max_mem = max_mem
 
 def update_msg(M, changed, name):
     if VERBOSE: 
@@ -90,10 +91,13 @@ def dpll_solve(test_case, mem_lim=None):
     M = []
     decision_points = []
 
+    max_mem = 0
+
     while True:
 
         if mem_lim is not None:
             used_mem = sys.getsizeof(M) + sys.getsizeof(decision_points)
+            max_mem = max(max_mem, used_mem)
             if used_mem > mem_lim:
                 raise MemoryError(f"solver used too much memory: {used_mem} > {mem_lim}")
 
@@ -103,7 +107,7 @@ def dpll_solve(test_case, mem_lim=None):
             M, can_backtrack = backtrack(M, decision_points)
             if not can_backtrack: # fail if can't backtrack anymore
                 print("\nFailed\n")
-                solution = SolverResult(UNSAT)
+                solution = SolverResult(UNSAT, max_mem=max_mem)
                 trunc_print("Solution", solution.assignment)
                 return solution
             else:
@@ -116,7 +120,7 @@ def dpll_solve(test_case, mem_lim=None):
                 break
 
         if all_assigned: #this would mean it's satisfied
-            solution = SolverResult(result, assignment=M)
+            solution = SolverResult(result, assignment=M, max_mem=max_mem)
             trunc_print("Solution", solution.assignment)
             return solution
 

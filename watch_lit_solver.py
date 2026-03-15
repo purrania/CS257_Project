@@ -5,9 +5,10 @@ SAT = True
 UNSAT = False
 
 class SolverResult:
-    def __init__(self, result, assignment = None):
+    def __init__(self, result, assignment = None, max_mem = 0):
        self.result = result
        self.assignment = assignment
+       self.max_mem = max_mem
 
 def check_conflict(clauses, M):
     for clause in clauses.clause_list:
@@ -160,7 +161,7 @@ def watched_literals_solve(test_case, mem_lim=None):
     for clause in clauses.clause_list:
         if len(clause.literals) == 0:
             print("\nFailed\n")
-            solution = SolverResult(UNSAT)
+            solution = SolverResult(UNSAT, max_mem=0)
             return solution
     
     #Starts by checking for Unit clauses
@@ -168,12 +169,13 @@ def watched_literals_solve(test_case, mem_lim=None):
         if len(clause.literals) == 1:
             if not _enqueue(clause.literals[0], M, M_set): #failed immediately
                 print("\nFailed\n")
-                solution = SolverResult(UNSAT)
+                solution = SolverResult(UNSAT, max_mem=0)
                 return solution
-
+    max_mem = 0
     while True:
         if mem_lim is not None:
             used_mem = sys.getsizeof(M) + sys.getsizeof(decision_points) + sys.getsizeof(M_set) + sys.getsizeof(watchlist) + sys.getsizeof(watched)
+            max_mem = max(max_mem, used_mem)
             if used_mem > mem_lim:
                 raise MemoryError(f"solver used too much memory: {used_mem} > {mem_lim}")
 
@@ -183,7 +185,7 @@ def watched_literals_solve(test_case, mem_lim=None):
             M, can_backtrack = backtrack(M, decision_points)
             if not can_backtrack: # fail if can't backtrack anymore
                 print("\nFailed\n")
-                solution = SolverResult(UNSAT)
+                solution = SolverResult(UNSAT, max_mem=max_mem)
                 return solution
             else:
                 # Rebuild fast structures after backtrack.
@@ -198,7 +200,7 @@ def watched_literals_solve(test_case, mem_lim=None):
                 break
 
         if all_assigned: #this would mean it's satisfied
-            solution = SolverResult(result, assignment=M)
+            solution = SolverResult(result, assignment=M, max_mem=max_mem)
             trunc_print("Solution", solution.assignment)            
             return solution
 
