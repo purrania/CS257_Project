@@ -1,0 +1,353 @@
+(base) ronnyjunkins@DN0a226384 CS257_Project % python guaranteed_wl_speedup_benchmark.py --sizes 5,10,20,40 --repeats 3
+Competition payload source: /Users/ronnyjunkins/Documents/CS257_Project/dimacs_tests.json
+Graph saved to: /Users/ronnyjunkins/Documents/CS257_Project/results/guaranteed_wl_speedups_20260314_191443.png
+Raw timings saved to: /Users/ronnyjunkins/Documents/CS257_Project/results/guaranteed_wl_speedups_20260314_191443.csv
+Median speedups saved to: /Users/ronnyjunkins/Documents/CS257_Project/results/guaranteed_wl_speedups_20260314_191443.json
+
+Median speedup over wl_base:
+  wl_blocking     1.547x
+  wl_stable       1.418x
+  wl_block+stable 1.536x
+(base) ronnyjunkins@DN0a226384 CS257_Project % 
+
+
+
+dimacs_tests.json               plot_results.py                 test_optimizations.py           utils.py
+(base) ronnyjunkins@DN0a226384 CS257_Project % python3 test_optimizations.py 
+=== wl_base ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0003s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0070s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0570s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3517s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.0404s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (24.6324s)
+  [TIMEOUT] dimacs_1280                              clauses= 1280  expected=True  got=TIMEOUT  (60.0000s)
+
+=== wl_blocking ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0071s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0639s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3507s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.9844s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (24.3984s)
+  [TIMEOUT] dimacs_1280                              clauses= 1280  expected=True  got=TIMEOUT  (60.0000s)
+
+=== wl_stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0074s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0564s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3492s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.9904s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (24.7450s)
+  [TIMEOUT] dimacs_1280                              clauses= 1280  expected=True  got=TIMEOUT  (60.0000s)
+
+=== wl_block+stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0069s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0565s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3487s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.9831s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (24.5935s)
+  [TIMEOUT] dimacs_1280                              clauses= 1280  expected=True  got=TIMEOUT  (60.0000s)
+
+==================================================
+SOME TESTS FAILED
+==================================================
+
+Graph saved to results/optimization_benchmark.png
+(base) ronnyjunkins@DN0a226384 CS257_Project % python3 test_optimizations.py --max-clauses 320
+=== dpll ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0000s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0004s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0020s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0166s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.1376s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.5775s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (5.8355s)
+
+=== wl_base ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0012s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0068s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0527s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3207s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.7453s)
+
+=== wl_blocking ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0066s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0532s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3261s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.7292s)
+
+=== wl_stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0066s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0532s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3187s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.7321s)
+
+=== wl_block+stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0066s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0530s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3169s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (2.7377s)
+
+==================================================
+ALL TESTS PASSED
+==================================================
+
+Graph saved to results/optimization_benchmark.png
+(base) ronnyjunkins@DN0a226384 CS257_Project % python3 test_optimizations.py 
+=== dpll ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0000s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0004s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0022s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0188s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.1615s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.7025s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (6.9388s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (47.1399s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (432.0515s)
+
+=== wl_base ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0001s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0010s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0075s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0615s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3959s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.4307s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (27.7048s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (241.0804s)
+
+=== wl_blocking ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0010s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0076s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0610s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3899s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.3510s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (26.9345s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (242.0849s)
+
+=== wl_stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0010s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0111s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0721s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3890s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.3324s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (26.9969s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (237.8445s)
+
+=== wl_block+stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0010s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0076s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0617s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3908s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.3865s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (26.4150s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (238.2346s)
+
+==================================================
+ALL TESTS PASSED
+==================================================
+
+Graph saved to results/bench_Mar14_0541PM.pngA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(base) ronnyjunkins@DN0a226384 CS257_Project % python3 test_optimizations.py 
+=== wl_base ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0071s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0579s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3664s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.1481s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (25.5459s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (231.4428s)
+
+=== wl_blocking ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0001s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0069s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0571s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3983s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.1775s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (25.5342s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (231.7503s)
+
+=== wl_stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0001s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0071s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0576s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3640s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.1269s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (25.5173s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (231.4923s)
+
+=== wl_block+stable ===
+  [PASS] EASY - One literal                       clauses=    1  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop                         clauses=    2  expected=True  got=True  (0.0000s)
+  [PASS] EASY - pure/prop longer                  clauses=    3  expected=True  got=True  (0.0000s)
+  [PASS] EASY - longer pure/prop/decide           clauses=    4  expected=True  got=True  (0.0000s)
+  [PASS] EASY - only one solution, longer         clauses=    6  expected=True  got=True  (0.0001s)
+  [PASS] DEBUG - example from lec 4 slides        clauses=    5  expected=False  got=False  (0.0000s)
+  [PASS] DEBUG - example from hw2                 clauses=    5  expected=True  got=True  (0.0000s)
+  [PASS] dimacs_10                                clauses=   10  expected=True  got=True  (0.0002s)
+  [PASS] dimacs_20                                clauses=   20  expected=True  got=True  (0.0009s)
+  [PASS] dimacs_40                                clauses=   40  expected=True  got=True  (0.0071s)
+  [PASS] dimacs_80                                clauses=   80  expected=True  got=True  (0.0579s)
+  [PASS] dimacs_160                               clauses=  160  expected=True  got=True  (0.3647s)
+  [PASS] dimacs_320                               clauses=  320  expected=True  got=True  (3.1403s)
+  [PASS] dimacs_640                               clauses=  640  expected=True  got=True  (25.6701s)
+  [PASS] dimacs_1280                              clauses= 1280  expected=True  got=True  (232.0558s)
+
+==================================================
+ALL TESTS PASSED
+==================================================
+
+Graph saved to results/bench_Mar14_0535PM.png

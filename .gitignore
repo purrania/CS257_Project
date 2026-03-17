@@ -5,3 +5,4 @@ results/
 *.swp
 *.json
 .DS_Store
+archived_results/
