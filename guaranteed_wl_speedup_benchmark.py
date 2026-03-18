@@ -1,29 +1,5 @@
 #!/usr/bin/env python3
-"""
-Benchmark harness intentionally designed to make blocker/stable watched-literal
-optimizations visible over the base watched-literals solver.
 
-How the construction works
---------------------------
-This script builds a *hybrid* benchmark:
-  1) it loads a small payload of clauses from an official SAT Competition source
-     (from a local cache if present, otherwise from the SAT Competition 2020 URI
-     list, or from a user-supplied direct benchmark URL), and
-  2) it adds a synthetic "watch-stress" gadget family that forces the base
-     watched-literals solver to do repeated watch moves that the blocking and
-     stable variants avoid.
-
-The SAT-competition payload is gated by two globally true literals so it remains
-present in the formula but does not disturb the controlled watched-literal
-behavior. The actual visible speedup comes from the watch-stress gadgets.
-
-Important honesty note
-----------------------
-This construction *guarantees fewer watched-clause body touches* for the
-optimized variants in the intended execution path. Absolute wall-clock speedup
-still depends on the Python runtime / machine, but with the default sizes and
-repeated measurements the speedup should be visible in practice.
-"""
 
 from __future__ import annotations
 
