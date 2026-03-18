@@ -3,6 +3,5 @@ A guide to running results:
 - For testing the DPLL solver,  python3 test_optimizations.py --include-dpll
 - For testing the watched literals solvers, python3 guaranteed_wl_speedup_benchmark.py --sizes 5,10,20,40 --repeats 3
 - For examining the clauses, run inspect_dimacs.py
-- For running the time/memory constraint tests, run python3 limit_time_mem_tester.py. This will take about 2 hours due to the amount of different combinations ran with multiple different solvers. After this, to generate the heatmaps and tables, run python3 limit_tests_plot_results.py. 
 
 The link to our data files, if you want to replicate our results exactly, or if don't want to have to generate test cases of your own, is at: https://drive.google.com/drive/u/0/folders/1Pc-V4d-sVpMeZtfMkgjUTzhV5OtKN6Q-
