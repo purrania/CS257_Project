@@ -2,7 +2,7 @@ import signal, time, json
 
 from test_case_maker import load_saved_test_cases
 from solver import dpll_solve
-from watch_lit_solver import watched_literals_solve
+from new_watch_lit_solver import watched_literals_solve, wl_stable_solve
 
 def timeout(sig, frame):
     raise TimeoutError
@@ -11,7 +11,7 @@ signal.signal(signal.SIGALRM, timeout)
 
 DIMACS_TEST_CASES = load_saved_test_cases("dimacs_tests.json")
 MEMORY_LIMITS_BYTES = [1024, 4*1024, 16*1024, 64*1024, 128*1024, 512 * 1024, 1024 * 1024]
-# TIME_LIMITS_SECONDS = [90]
+# # TIME_LIMITS_SECONDS = [90]
 TIME_LIMITS_SECONDS = [5, 15, 30, 60, 90, 120, 240]
 
 # MEMORY_LIMITS_BYTES = [512 * 1024, 1024 * 1024]
@@ -21,8 +21,10 @@ TIME_LIMITS_SECONDS = [5, 15, 30, 60, 90, 120, 240]
 # TIME_LIMITS_SECONDS = [120, 300]
 
 # MEMORY_LIMITS_BYTES = [1024]
-# TIME_LIMITS_SECONDS = [5]
-SOLVERS = {"dpll": dpll_solve, "wl": watched_literals_solve}
+# TIME_LIMITS_SECONDS = [60]
+# MEMORY_LIMITS_BYTES  = [1024*1024]
+
+SOLVERS = {"dpll": dpll_solve, "wl": watched_literals_solve, "wl_stable": wl_stable_solve}
 
 results = []
 

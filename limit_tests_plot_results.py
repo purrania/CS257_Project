@@ -61,9 +61,10 @@ def convert_to_index(status):
 # heatmap code
 
 for time_limit in time_limits:
-    figure, axes = plt.subplots(1, 2, figsize=(16,6))
-    for axis, solver in zip(axes, ["dpll", "wl"]):
-
+    solvers = ["dpll", "wl", "wl_stable"]
+    solvers_names = {"dpll": "DPLL", "wl": "WL", "wl_stable": "WL + Stable"}
+    figure, axes = plt.subplots(1, len(solvers), figsize=(8 * len(solvers), 6))
+    for axis, solver in zip(axes, solvers):
         grid = []
         for memory_limit in memory_limits:
             row = []
@@ -80,22 +81,18 @@ for time_limit in time_limits:
         y_tick_labels = []
         for memory_limit in memory_limits:
             y_tick_labels.append(f"{memory_limit // 1024}")
-       
+        
         axis.set_yticklabels(y_tick_labels)
         axis.set_xlabel("# Clauses")
         axis.set_ylabel("Memory Limits (KB)")
-        
-        if solver == "dpll":
-            axis.set_title("DPLL")
-        else:
-            axis.set_title("Watched Literals Optimization")
-
+        axis.set_title(solvers_names[solver])
+            
         for i, mem_limit in enumerate(memory_limits):
             for j, clause in enumerate(clauses):
                 status = get_status(solver, time_limit, mem_limit, clause)
                 label = {"satisfiable": "SAT", "unsatisfiable": "UNSAT", "time": "TIME", "memory": "MEM"}.get(status, "None")
                 axis.text(j, i, label, ha="center", va="center")
-    
+        
     figure.suptitle(f"Result by Clauses and Memory Limit (time limit = {time_limit} seconds)", fontsize=20)
     plt.savefig(f"heatmap_{time_limit}s.png")
     plt.close()
@@ -106,27 +103,37 @@ max_mem_limit = max(memory_limits)
 
 # table: memory used per num clauses and ratio
 
+solvers = ["dpll", "wl", "wl_stable"]
+
 print(f"{'Clauses':<12} {'DPLL Memory':<12} {'WL Memory':<12} {'Ratio'}")
 
 for clause in clauses:
-    dpll_mem = None
-    wl_mem = None
+    print(f"\n{clause} clauses")
+    for solver in solvers:
+        for row in rows:
+            if row["time_limit"] == max_time_limit and row["memory_limit"] == max_mem_limit and row["num_clauses"] == clause and row["solver_name"] == solver:
+                if row["max_mem"] is not None:
+                    print(f" {solver}: {row['max_mem']:} B")
+
+# for clause in clauses:
+#     dpll_mem = None
+#     wl_mem = None
     
-    for r in rows:
-        if r["time_limit"] == max_time_limit and r["memory_limit"] == max_mem_limit and r["num_clauses"] == clause:
-                if r["solver_name"] == "dpll":
-                    dpll_mem = r["max_mem"]
-                if r["solver_name"] == "wl":
-                    wl_mem = r["max_mem"]
+#     for r in rows:
+#         if r["time_limit"] == max_time_limit and r["memory_limit"] == max_mem_limit and r["num_clauses"] == clause:
+#                 if r["solver_name"] == "dpll":
+#                     dpll_mem = r["max_mem"]
+#                 if r["solver_name"] == "wl":
+#                     wl_mem = r["max_mem"]
     
-    dpll_m = "None"
-    wl_m = "None"
+#     dpll_m = "None"
+#     wl_m = "None"
 
-    if dpll_mem is not None:
-        dpll_m = f"{dpll_mem}B"
-    if wl_mem is not None:
-        wl_m = f"{wl_mem} B"
+#     if dpll_mem is not None:
+#         dpll_m = f"{dpll_mem}B"
+#     if wl_mem is not None:
+#         wl_m = f"{wl_mem} B"
 
-    print(f"{clause:<12} {dpll_m:<12} {wl_m:<12} {wl_mem / dpll_mem:.1f}x") 
+#     print(f"{clause:<12} {dpll_m:<12} {wl_m:<12} {wl_mem / dpll_mem:.1f}x") 
 
-print("\n")
+# print("\n")
